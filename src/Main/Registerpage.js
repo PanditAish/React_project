@@ -17,8 +17,16 @@ const Registerpage = () => {
 
   const handleSubmit = () => {
     const payload = { role: role.current.value, email: email, password:password, conpassword:conpassword };
-    setUser(payload);
-    localStorage.setItem("user", JSON.stringify(payload));
+    // setUser(payload);
+    // localStorage.setItem("user", JSON.stringify(payload));
+
+    const previousData = JSON.parse(localStorage.getItem("user")) || {};
+
+    const newData = { ...previousData, ...payload };
+
+    localStorage.setItem("user", JSON.stringify(newData));
+
+    setUser(newData);
   };
 
   return (

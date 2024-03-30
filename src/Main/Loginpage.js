@@ -1,17 +1,44 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import '../Assest/style.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import GlobalContext from '../Context/ContextApi'
 
 const Loginpage = () => {
 
+    const ctxGlobal = useContext(GlobalContext);
+    const navigate = useNavigate();
+    const [isAuth, setIsAuth] = ctxGlobal.auth;
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [storedUser, setStoredUser] = useState(null);
+
+    useEffect(() => {
+      const storedUserJSON = localStorage.getItem('user');
+      if (storedUserJSON) {
+        setStoredUser(JSON.parse(storedUserJSON));
+      }
+    }, []);
 
     const submitform = () =>{
 
         const newEntry = {email: email, password: password}
         console.log(newEntry);
 
+        if (storedUser && storedUser.email === email && storedUser.password === password) {
+          setIsAuth(true);
+          if (localStorage.getItem('prevUrl') !== undefined && localStorage.getItem('prevUrl') !== null) {
+            navigate(localStorage.getItem('prevUrl'));
+            setTimeout(() => {
+              localStorage.removeItem('prevUrl');
+            }, 800);
+          } else {
+            alert('Login successful');
+          }
+        } else {
+          alert('Invalid email or password');
+        }
+        
     }
 
   return (
