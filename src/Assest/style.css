@@ -4,20 +4,36 @@
     box-sizing: border-box;
 }
 
+body{
+  background-image:url(/src/Assest/images/backgroundimg2.jpg) ;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .btn-color{
-    background-color: #0e1c36;
+    background-color: #4385ff;
+    color: #fff;
+  }
+
+  .btn-color:hover{
+    background-color: #1048b1;
     color: #fff;
     
   }
   
   .profile-image{
-    height: 150px;
-    width: 150px;
+    height: 100px;
+    width: 100px;
     object-fit: cover;
   }
   
+  .imguser{
+    height: 30px;
+    width: 30px;
+  }
   .cardbody-color{
-    background-color: #ebf2fa;
+    /* background-color: #ebf2fa; */
+    background-color: white;
   }
   
   a{
