@@ -1,12 +1,15 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import GlobalContext from "../Context/ContextApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { addUser } from "./Data";
-
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Registerpage = () => {
   const globalCtx = useContext(GlobalContext);
+
+  const navigate = useNavigate();
 
   const [user, setUser] = globalCtx.users;
 
@@ -38,16 +41,47 @@ const Registerpage = () => {
 
       // const newData = { ...previousData, ...payload };
 
+      
       const newData = { ...payload };
 
       addUser(newData, setUserData);
-     // console.log('user registered',newData);
+
+      toast.success("Registration successfully");
+
+      setUser(payload);
+      localStorage.setItem('user', JSON.stringify(payload));
+
+      if (payload.role === "user") {
+        navigate("/user/userdashboard");
+      } else if (payload.role === "techsupport") {
+        navigate("/tech/techdashboard");
+      } else if (payload.role === "admin") {
+        navigate("/admin/admindashboard");
+      }
+
+      // console.log('user registered',newData);
 
       // localStorage.setItem("user", JSON.stringify(newData));
 
       // setUser(newData);
     },
   });
+
+  useEffect(() =>{
+    
+    if(!user || user === null || user === undefined){
+      navigate('/');
+    }else{
+      if(user.role === "user"){
+        navigate('/user/userdashboard')
+      }else if(user.role === "techsupport"){
+        navigate('/tech/techdashboard')
+      }else if(user.role === "admin"){
+        navigate('/admin/admindashboard')
+      }
+    }
+    
+  },[user, navigate]);
 
   return (
     <>
@@ -61,7 +95,9 @@ const Registerpage = () => {
               >
                 <div className="form-group mb-3">
                   <select className="form-control" ref={role}>
-                    <option value="user" selected>User</option>
+                    <option value="user" selected>
+                      User
+                    </option>
                     <option value="techsupport">Tech Support</option>
                     <option value="admin">Admin</option>
                   </select>
@@ -84,7 +120,9 @@ const Registerpage = () => {
                   ) : null}
                 </div>
                 <div className="mb-3">
-                  <label className=" form-label mb-2" htmlFor="password">Password</label>
+                  <label className=" form-label mb-2" htmlFor="password">
+                    Password
+                  </label>
                   <input
                     type="password"
                     className="form-control"
@@ -99,7 +137,9 @@ const Registerpage = () => {
                   ) : null}
                 </div>
                 <div className="mb-3">
-                  <label className=" form-label mb-2" htmlFor="conpassword">Confirm Password</label>
+                  <label className=" form-label mb-2" htmlFor="conpassword">
+                    Confirm Password
+                  </label>
                   <input
                     type="password"
                     className="form-control"
@@ -110,7 +150,9 @@ const Registerpage = () => {
                     onChange={handleChange}
                   />
                   {errors.conpassword && touched.conpassword ? (
-                    <p className="form-error text-danger">{errors.conpassword}</p>
+                    <p className="form-error text-danger">
+                      {errors.conpassword}
+                    </p>
                   ) : null}
                 </div>
                 <div className="text-center">

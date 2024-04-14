@@ -5,8 +5,8 @@ import GlobalContext from "../Context/ContextApi";
 // import users from "./Data";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+
 
 const Loginpage = () => {
   const ctxGlobal = useContext(GlobalContext);
@@ -53,7 +53,7 @@ const Loginpage = () => {
               navigate('/admin/admindashboard')
             }
             console.log('User credentials are valid.');
-            toast.success("send successfully");
+            toast.success("Login successfully");
           } else {
             console.log('Invalid credentials.');
           }
@@ -130,7 +130,7 @@ const Loginpage = () => {
                   >
                     Login
                   </button>
-                  <ToastContainer />
+                  
                 </div>
 
                 <div
